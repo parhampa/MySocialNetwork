@@ -35,7 +35,7 @@ include("config.php");
 
 </head>
 <body class="backload">
-<div style="width: 80%; margin-left: 10%;" class="w3-white w3-panel w3-card-2">
+<div style="width: 80%; margin-left: 10%;" class="w3-white w3-panel w3-card-2" id="mainpart">
     <span style="font-size: 12px;" class="w3-text-blue">messages <span class="w3-text-red" style="width: 15px;">5</span></span>
     <div style="height: 40px; width: 100%; margin-top: 10px; margin-bottom: 10px;" class="scrollmenu">
         <span class="w3-btn w3-blue w3-hover-pink <?php echo($loginstatus); ?>"
@@ -670,8 +670,8 @@ include("config.php");
     $res = mysqli_query($connect, $sqlpost);
     while ($fild = mysqli_fetch_assoc($res)) {
         ?>
-        <div style="width: 100%; padding: 10px;">
-            <div style="width: 70%; margin-left: 15%; padding: 10px;" class="w3-card-2">
+        <div style="width: 100%; padding: 10px;" class="postmain">
+            <div style="width: 70%; margin-left: 15%; padding: 10px;" class="w3-card-2 postcontent">
                 <div>
                     <div style=" margin-right:10px; float: left ; border-radius: 50%; background-color: black; height: 50px; width: 50px;"></div>
                     <div><span style="font-size: 6px;"><br></span><?php echo($fild['user']); ?></div>
@@ -679,8 +679,45 @@ include("config.php");
                 </div>
                 <div>
                     <div>
-                        <img src="pic/no_pic.jpg" style="width: 100%;"><br>
+                        <?php
+                        $post_id = $fild['id'];
+                        $sqlpic = "select * from `post_pics` where `post_id`=$post_id";
+                        $respic = mysqli_query($connect, $sqlpic);
+                        $picaddress = "pic/no_pic.jpg";
+                        if (mysqli_num_rows($respic) == 0) {
+                            ?>
+                            <img src="<?php echo($picaddress); ?>" style="width: 100%;"><br>
+                            <?php
+                        }
+                        $piccount = 0;
+                        while ($fildpic = mysqli_fetch_assoc($respic)) {
+                            $displaypic = "";
+                            if ($piccount > 0) {
+                                $displaypic = " display:none;";
+                            }
+                            if (file_exists($fildpic['address']) == true) {
+                                $picaddress = $fildpic['address'];
+                            }
+                            ?>
+                            <img src="<?php echo($picaddress); ?>"
+                                 style="width: 100%;<?php echo($displaypic); ?>"
+                                 class="imagepost<?php echo($post_id); ?> imagepostnumber<?php echo($post_id . '-' . $piccount); ?>">
+                            <?php
+                            $piccount++;
+                        }
+                        ?>
+                        <div id="slidebtn" style="margin-top:5px; width: 100%;">
+                            <?php
+                            for ($i = 0; $i < mysqli_num_rows($respic); $i++) {
+                                ?>
+                                <span onclick="showslide(<?php echo($i); ?>,<?php echo($post_id); ?>)" class="w3-gray"
+                                      style=" margin-right:10px; float: left ; border-radius: 50%; background-color: black; height: 10px; width: 10px;"></span>
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </div>
+                    <br>
                     <span class="heart"></span>
                     <hr>
                     <p><?php echo($fild['txt']); ?></p>
@@ -704,5 +741,26 @@ include("config.php");
         }
     </style>
 </div>
+<script>
+    if (document.getElementById('mainpart').clientWidth < 300) {
+        var ptlen = document.getElementsByClassName('postmain').length;
+        for (i = 0; i < ptlen; i++) {
+            document.getElementsByClassName('postmain')[i].style.width = "100%";
+            document.getElementsByClassName('postmain')[i].style.marginLeft = "0";
+            document.getElementsByClassName('postcontent')[i].style.width = "100%";
+            document.getElementsByClassName('postcontent')[i].style.marginLeft = "0";
+        }
+    }
+
+    function showslide(slideitem, postid) {
+        var imgclasspost = "imagepost" + postid;
+        var postpiccount = document.getElementsByClassName(imgclasspost).length;
+        for (i = 0; i < postpiccount; i++) {
+            document.getElementsByClassName(imgclasspost)[i].style.display = "none";
+        }
+        var imageitemcls = "imagepostnumber" + postid + "-" + slideitem;
+        document.getElementsByClassName(imageitemcls)[0].style.display = "";
+    }
+</script>
 </body>
 </html>

@@ -661,11 +661,35 @@ include("config.php");
                 }
             }
         </script>
+    <?php
+    if ($admin == true)
+    {
+    ?>
+        <div style="width: 100%;">
+            <span class="w3-btn w3-green" onclick="location.replace('main.php')">show all post</span>
+            <span class="w3-btn w3-green" onclick="location.replace('main.php?vi=1')">show visible post</span>
+            <span class="w3-btn w3-green" onclick="location.replace('main.php?vi=0')">show unvisible post</span>
+        </div>
         <?php
+    }
+    }
+    $filter = "";
+    if (isset($_GET['vi']) == true && $admin == true) {
+        $vi = sqlint($_GET['vi']);
+        if ($vi != 0 && $vi != 1) {
+            die();
+        }
+        if ($filter == "") {
+            $filter = " where `visible`=$vi";
+        } else {
+            $filter = "`visible`=$vi";
+        }
     }
     $sqlpost = "";
     if ($admin == true) {
-        $sqlpost = "select * from `post` order by id DESC limit 0,15";
+        $sqlpost = "select * from `post` $filter order by `id` DESC limit 0,15";
+    } else {
+        $sqlpost = "select * from `post` where `visible`=1 order by `post_order` DESC limit 0,15";
     }
     $res = mysqli_query($connect, $sqlpost);
     while ($fild = mysqli_fetch_assoc($res)) {
@@ -721,6 +745,31 @@ include("config.php");
                     <span class="heart"></span>
                     <hr>
                     <p><?php echo($fild['txt']); ?></p>
+                    <div style="display: none;" id="morpostid<?php echo($fild['id']); ?>"></div>
+                    <div style="width: 100%; font-size: 12px; color: #979797;">
+                        <span onclick="showmorepost(<?php echo($fild['id']); ?>)"
+                              id="btnshmor<?php echo($fild['id']); ?>">more...</span>
+                        <span style="display: none;" onclick="hidemorepost(<?php echo($fild['id']); ?>)"
+                              id="btnhimor<?php echo($fild['id']); ?>">hide...</span>
+                    </div>
+                    <?php
+                    if ($fild['visible'] == 0) {
+                        ?>
+                        <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
+                              id="visiblepost<?php echo($fild['id']); ?>">make it visible</span>
+                        <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);" id="unvisiblepost<?php echo($fild['id']); ?>"
+                              style="display: none;">make it unvisible</span>
+                        <?php
+                    } else {
+                        ?>
+                        <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);"
+                              id="unvisiblepost<?php echo($fild['id']); ?>">make it unvisible</span>
+                        <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
+                              id="visiblepost<?php echo($fild['id']); ?>"
+                              style="display: none;">make it visible</span>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -742,6 +791,60 @@ include("config.php");
     </style>
 </div>
 <script>
+    function visiblepost(id) {
+
+        $.ajax({
+            url: "vipost.php?id=" + id + "&vi=1",
+            ids: id,
+            type: 'get',
+            success: function (data) {
+                var btnid = "unvisiblepost" + id;
+                document.getElementById(btnid).style.display = "";
+                var btnid = "visiblepost" + id;
+                document.getElementById(btnid).style.display = "none";
+            }
+        })
+    }
+    function unvisiblepost(id) {
+
+        $.ajax({
+            url: "vipost.php?id=" + id + "&vi=0",
+            ids: id,
+            type: 'get',
+            success: function (data) {
+                var btnid = "unvisiblepost" + id;
+                document.getElementById(btnid).style.display = "none";
+                var btnid = "visiblepost" + id;
+                document.getElementById(btnid).style.display = "";
+            }
+        })
+    }
+
+    function showmorepost(id) {
+        $.ajax({
+            url: "morepost.php?id=" + id,
+            ids: id,
+            type: 'get',
+            success: function (data) {
+                //alert(data);
+                /*document.getElementById('postform2').style.display = 'none';
+                document.getElementById('postform3').style.display = '';*/
+                var res = "morpostid" + id;
+                document.getElementById(res).innerHTML = data;
+                document.getElementById(res).style.display = "";
+                document.getElementById("btnshmor" + id).style.display = "none";
+                document.getElementById("btnhimor" + id).style.display = "";
+            }
+        });
+    }
+
+    function hidemorepost(id) {
+        var res = "morpostid" + id;
+        document.getElementById(res).style.display = "none";
+        document.getElementById("btnshmor" + id).style.display = "";
+        document.getElementById("btnhimor" + id).style.display = "none";
+    }
+
     if (document.getElementById('mainpart').clientWidth < 300) {
         var ptlen = document.getElementsByClassName('postmain').length;
         for (i = 0; i < ptlen; i++) {

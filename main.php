@@ -228,6 +228,11 @@ include("config.php");
                     <option value="0">no</option>
                     <option value="1">yes</option>
                 </select>
+                <label class="w3-text-blue">Is it money ?</label>
+                <select id="numericmoney" class="w3-select w3-border">
+                    <option value="0">no</option>
+                    <option value="1">yes</option>
+                </select>
                 <br>
                 <br>
                 <input type="text" class="w3-btn w3-green w3-hover-blue" value="add numeric item"
@@ -242,7 +247,8 @@ include("config.php");
                                 stringimportant: document.getElementById('stringimportant').value,
                                 cat_id: document.getElementById('addstringcatid').value,
                                 title: document.getElementById('addstringtitle').value,
-                                order_string: document.getElementById('addstringorder').value
+                                order_string: document.getElementById('addstringorder').value,
+                                bigtext: document.getElementById('stringtextarea').value
                             },
                             function (data, status) {
                                 myobj = JSON.parse(data);
@@ -256,6 +262,11 @@ include("config.php");
                 <input type="text" class="w3-input w3-border" placeholder="your string order" id="addstringorder">
                 <label class="w3-text-blue">Forced entry:</label>
                 <select id="stringimportant" class="w3-select w3-border">
+                    <option value="0">no</option>
+                    <option value="1">yes</option>
+                </select>
+                <label class="w3-text-blue">Is it textarea?</label>
+                <select id="stringtextarea" class="w3-select w3-border">
                     <option value="0">no</option>
                     <option value="1">yes</option>
                 </select>
@@ -288,7 +299,8 @@ include("config.php");
                         cat_id: document.getElementById('numericcatid').value,
                         title: document.getElementById('numerictitle').value,
                         orderval: document.getElementById('numericorderval').value,
-                        important: document.getElementById('numericimportant').value
+                        important: document.getElementById('numericimportant').value,
+                        ismoney: document.getElementById('numericmoney').value
                     },
                     function (data, status) {
                         myobj = JSON.parse(data);
@@ -619,7 +631,12 @@ include("config.php");
                                 if (important == "1") {
                                     objectsss = "required";
                                 }
-                                res += "<label class='w3-text-blue'>" + myobj.items[i].title + "</label><input class='w3-input w3-border' type='text' id='addstringval" + myobj.items[i].id + "' " + objectsss + ">";
+                                if (myobj.items[i].bigtext == 0) {
+                                    res += "<label class='w3-text-blue'>" + myobj.items[i].title + "</label><input class='w3-input w3-border' type='text' id='addstringval" + myobj.items[i].id + "' " + objectsss + ">";
+                                }
+                                else {
+                                    res += "<label class='w3-text-blue'>" + myobj.items[i].title + "</label><textarea class='w3-input w3-border' id='addstringval" + myobj.items[i].id + "' " + objectsss + "></textarea>";
+                                }
                                 formsel.push('addstringval' + myobj.items[i].id);
                                 importantform.push(myobj.items[i].important);
                                 formcaption.push(myobj.items[i].title);
@@ -753,21 +770,24 @@ include("config.php");
                               id="btnhimor<?php echo($fild['id']); ?>">hide...</span>
                     </div>
                     <?php
-                    if ($fild['visible'] == 0) {
-                        ?>
-                        <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
-                              id="visiblepost<?php echo($fild['id']); ?>">make it visible</span>
-                        <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);" id="unvisiblepost<?php echo($fild['id']); ?>"
-                              style="display: none;">make it unvisible</span>
-                        <?php
-                    } else {
-                        ?>
-                        <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);"
-                              id="unvisiblepost<?php echo($fild['id']); ?>">make it unvisible</span>
-                        <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
-                              id="visiblepost<?php echo($fild['id']); ?>"
-                              style="display: none;">make it visible</span>
-                        <?php
+                    if ($admin == true) {
+                        if ($fild['visible'] == 0) {
+                            ?>
+                            <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
+                                  id="visiblepost<?php echo($fild['id']); ?>">make it visible</span>
+                            <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);"
+                                  id="unvisiblepost<?php echo($fild['id']); ?>"
+                                  style="display: none;">make it unvisible</span>
+                            <?php
+                        } else {
+                            ?>
+                            <span class="w3-btn w3-green" onclick="unvisiblepost(<?php echo($fild['id']); ?>);"
+                                  id="unvisiblepost<?php echo($fild['id']); ?>">make it unvisible</span>
+                            <span class="w3-btn w3-green" onclick="visiblepost(<?php echo($fild['id']); ?>)"
+                                  id="visiblepost<?php echo($fild['id']); ?>"
+                                  style="display: none;">make it visible</span>
+                            <?php
+                        }
                     }
                     ?>
                 </div>
@@ -805,6 +825,7 @@ include("config.php");
             }
         })
     }
+
     function unvisiblepost(id) {
 
         $.ajax({
@@ -863,6 +884,48 @@ include("config.php");
         }
         var imageitemcls = "imagepostnumber" + postid + "-" + slideitem;
         document.getElementsByClassName(imageitemcls)[0].style.display = "";
+    }
+
+    function editmortxt(oldid, postid) {
+        var id = "strid" + oldid;
+        var paramval = document.getElementById(id).innerHTML;
+        document.getElementById(id).onclick = "";
+        document.getElementById(id).innerHTML = "<input style='width: 100%' type='text' id='t" + id + "' value='" + paramval + "'><input type='button' value='save' onclick='savetxt(" + oldid + "," + postid + ")'><input onclick='canseledotmortxt(" + oldid + "," + postid + ")' type='button' value='cancel'>";
+    }
+
+    function editmortxtarea(oldid, postid) {
+        var id = "strid" + oldid;
+        var paramval = document.getElementById(id).innerHTML;
+        document.getElementById(id).onclick = "";
+        document.getElementById(id).innerHTML = "<textarea style='width: 100%;' id='t" + id + "'>" + paramval + "</textarea><input type='button' value='save' onclick='savetxt(" + oldid + "," + postid + ")'><input onclick='canseledotmortxt(" + oldid + "," + postid + ")' type='button' value='cancel'>";
+    }
+
+    function canseledotmortxt(oldid, postid) {
+        $.ajax({
+            url: "showitemtxt.php?t=1&id=" + oldid,
+            id: oldid,
+            type: 'post',
+            success: function (data) {
+                var id = "strid" + oldid;
+                document.getElementById(id).innerHTML = data;
+                document.getElementById(id).onclick = "editmortxt(" + oldid + ")";
+                showmorepost(postid);
+            }
+        });
+    }
+
+    function savetxt(id, postid) {
+        var txtid = "tstrid" + id;
+        var valuee = document.getElementById(txtid).value;
+        $.post("saveitem.php",
+            {
+                id: id,
+                valuee: valuee,
+                str: 1
+            },
+            function (data, status) {
+                showmorepost(postid);
+            });
     }
 </script>
 </body>

@@ -33,7 +33,14 @@ while ($fild = mysqli_fetch_assoc($res)) {
     $res2 = mysqli_query($connect, $sql2);
     $fild2 = mysqli_fetch_assoc($res2);
     $stringvalue = $fild2['value'];
-    echo($stringtitle . ": " . $stringvalue . "<br>");
+    $sid = $fild2['sid'];
+    $sql3 = "select * from `stringval_item` where `id`=$sid and `bigtext`=1";
+    $res3 = mysqli_query($connect, $sql3);
+    if (mysqli_num_rows($res3) == 0) {
+        echo($stringtitle . ": <span onclick='editmortxt(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
+    } else {
+        echo($stringtitle . ": <span onclick='editmortxtarea(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
+    }
 }
 $sql = "select * from `numericval_item` where `cat_id`=$cat_id order by `orderval` DESC";
 $res = mysqli_query($connect, $sql);

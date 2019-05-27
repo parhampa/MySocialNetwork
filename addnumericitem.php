@@ -26,8 +26,19 @@ if (isset($_POST['important']) == false) {
     die();
 }
 $important = sqlint($_POST['important']);
-$sql = "insert into `numericval_item` (`title`,`orderval`,`cat_id`,`important`) VALUE 
-      ('$title',$orderval,$cat_id,$important)";
+if ($important != 0 && $important != 1) {
+    die();
+}
+if (isset($_POST['ismoney']) == false) {
+    die();
+}
+$ismoney = sqlint($_POST['ismoney']);
+if ($ismoney != 0 && $ismoney != 1) {
+    die();
+}
+
+$sql = "insert into `numericval_item` (`title`,`orderval`,`cat_id`,`important`,`ismoney`) VALUE 
+      ('$title',$orderval,$cat_id,$important,$ismoney)";
 $res = mysqli_query($connect, $sql);
 if ($res) {
     respm("1", "your numeric value is in database now...");

@@ -37,7 +37,7 @@ while ($fild = mysqli_fetch_assoc($res)) {
     if ($count > 0) {
         echo(",");
     }
-    ?>{"id":"<?php echo($fild['id']); ?>","title":"<?php echo($fild['title']); ?>","order":"<?php echo($fild['orderval']); ?>","type":"numeric","important":"<?php echo($fild['important']); ?>"}<?php
+    ?>{"id":"<?php echo($fild['id']); ?>","title":"<?php echo($fild['title']); ?>","order":"<?php echo($fild['orderval']); ?>","type":"numeric","important":"<?php echo($fild['important']); ?>","ismoney":"<?php echo($fild['ismoney']); ?>"}<?php
     $count++;
 }
 $sql = "select * from `stringval_item` where `cat_id`=$cat_id order by `order_string` DESC";
@@ -46,7 +46,7 @@ while ($fild = mysqli_fetch_assoc($res)) {
     if ($count > 0) {
         echo(",");
     }
-    ?>{"id":"<?php echo($fild['id']); ?>","title":"<?php echo($fild['title']); ?>","order":"<?php echo($fild['order_string']); ?>","type":"string","important":"<?php echo($fild['important']); ?>"}<?php
+    ?>{"id":"<?php echo($fild['id']); ?>","title":"<?php echo($fild['title']); ?>","order":"<?php echo($fild['order_string']); ?>","type":"string","important":"<?php echo($fild['important']); ?>","bigtext":"<?php echo($fild['bigtext']); ?>"}<?php
     $count++;
 }
 ?>]}

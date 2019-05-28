@@ -901,17 +901,7 @@ include("config.php");
     }
 
     function canseledotmortxt(oldid, postid) {
-        $.ajax({
-            url: "showitemtxt.php?t=1&id=" + oldid,
-            id: oldid,
-            type: 'post',
-            success: function (data) {
-                var id = "strid" + oldid;
-                document.getElementById(id).innerHTML = data;
-                document.getElementById(id).onclick = "editmortxt(" + oldid + ")";
-                showmorepost(postid);
-            }
-        });
+        showmorepost(postid);
     }
 
     function savetxt(id, postid) {
@@ -922,6 +912,31 @@ include("config.php");
                 id: id,
                 valuee: valuee,
                 str: 1
+            },
+            function (data, status) {
+                showmorepost(postid);
+            });
+    }
+
+    function editmornumber(oldid, postid) {
+        var id = "numid" + oldid;
+        var paramval = document.getElementById(id).innerHTML;
+        document.getElementById(id).onclick = "";
+        document.getElementById(id).innerHTML = "<input style='width: 100%' type='number' id='n" + id + "' value='" + paramval + "'><input type='button' value='save' onclick='savenumber(" + oldid + "," + postid + ")'><input onclick='canseledotmornumeric(" + oldid + "," + postid + ")' type='button' value='cancel'>";
+    }
+
+    function canseledotmornumeric(oldid, postid) {
+        showmorepost(postid);
+    }
+
+    function savenumber(id, postid) {
+        var txtid = "nnumid" + id;
+        var valuee = document.getElementById(txtid).value;
+        $.post("saveitem.php",
+            {
+                id: id,
+                valuee: valuee,
+                numer: 1
             },
             function (data, status) {
                 showmorepost(postid);

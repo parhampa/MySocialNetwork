@@ -51,6 +51,7 @@ while ($fild = mysqli_fetch_assoc($res)) {
     $res2 = mysqli_query($connect, $sql2);
     $fild2 = mysqli_fetch_assoc($res2);
     $numericvalue = $fild2['value'];
-    echo($numerictitle . ": " . $numericvalue . "<br>");
+    $numid = $fild2['id'];
+    echo($numerictitle . ": <span onclick='editmornumber(" . $numid . ", " . $postid . ")' id='numid" . $numid . "'>" . $numericvalue . "</span><br>");
 }
 ?>

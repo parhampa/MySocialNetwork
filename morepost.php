@@ -18,10 +18,11 @@ while ($fild = mysqli_fetch_assoc($res)) {
     if (mysqli_num_rows($res2) > 0) {
         $fild2 = mysqli_fetch_assoc($res2);
         $selval = $fild2['selval'];
+        $sleid = $fild2['id'];
         $sql2 = "select * from `selectbox_val` where `id` = $selval";
         $res2 = mysqli_query($connect, $sql2);
         $fild2 = mysqli_fetch_assoc($res2);
-        echo($fild['title'] . ": " . $fild2['title'] . "<br>");
+        echo($fild['title'] . ": <span id='selid" . $sleid . "' onclick='editselitems(" . $sleid . "," . $postid . ");'>" . $fild2['title'] . "</span><br>");
     }
 }
 $sql = "select * from `stringval_item` where `cat_id`=$cat_id order by `order_string` DESC";
@@ -34,12 +35,14 @@ while ($fild = mysqli_fetch_assoc($res)) {
     $fild2 = mysqli_fetch_assoc($res2);
     $stringvalue = $fild2['value'];
     $sid = $fild2['sid'];
-    $sql3 = "select * from `stringval_item` where `id`=$sid and `bigtext`=1";
-    $res3 = mysqli_query($connect, $sql3);
-    if (mysqli_num_rows($res3) == 0) {
-        echo($stringtitle . ": <span onclick='editmortxt(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
-    } else {
-        echo($stringtitle . ": <span onclick='editmortxtarea(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
+    if ($sid != "") {
+        $sql3 = "select * from `stringval_item` where `id`=$sid and `bigtext`=1";
+        $res3 = mysqli_query($connect, $sql3);
+        if (mysqli_num_rows($res3) == 0) {
+            echo($stringtitle . ": <span onclick='editmortxt(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
+        } else {
+            echo($stringtitle . ": <span onclick='editmortxtarea(" . $fild2['id'] . "," . $postid . ")' id='strid" . $fild2['id'] . "'>" . $stringvalue . "</span><br>");
+        }
     }
 }
 $sql = "select * from `numericval_item` where `cat_id`=$cat_id order by `orderval` DESC";

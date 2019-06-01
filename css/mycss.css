@@ -1,0 +1,21 @@
+div.scrollmenu {
+    height: 60px !important;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.scrollmenu span {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.heart {
+    background-image: url("../pic/heart.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: relative;
+    height: 30px;
+    width: 30px;
+    top: 10px;
+}

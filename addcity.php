@@ -21,8 +21,8 @@ $city_ord = sqlint($_POST['city_ord']);
 $sql = "insert into `city` (`city_ord`,`title`) VALUES ($city_ord,'$title')";
 $res = mysqli_query($connect, $sql);
 if ($res) {
-    respm("1", "your city is in database now...");
+    respm("1", $di_addcitypm1);
 } else {
-    respm("0", "we can`t add this city...");
+    respm("0", $di_addcitypm2);
 }
 ?>

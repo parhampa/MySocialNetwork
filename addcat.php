@@ -12,9 +12,9 @@ if (isset($_GET['delete']) == true) {
     $sql = "delete from cat where `id`=$cat_id";
     $res = mysqli_query($connect, $sql);
     if ($res) {
-        respm("0", "your category is deleted...");
+        respm("0", $di_addcat_pm1);
     } else {
-        $pmw = "we have a problem in this action...";
+        $pmw = $di_addcat_pm2;
         respm("0", $pmw);
     }
     die();
@@ -28,21 +28,21 @@ if (isset($_POST['father']) == true) {
     $father = sqlint($_POST['father']);
 }
 if (isset($_POST['title']) == false) {
-    respm("0", "please insert category title...");
+    respm("0", $di_addcatpm3);
     die();
 }
 $title = sqlstr($_POST['title']);
 if ($title == "") {
-    respm("0", "please insert category title...");
+    respm("0", $di_addcatpm3);
     die();
 }
 $sql = "insert into cat (`cat_ord`,`father`,`title`) VALUES ($cat_ord,$father,'$title')";
-$pmr = "your category is added...";
-$pmw = "we have a problem in this action...";
+$pmr = $di_addcat_pm4;
+$pmw = $di_addcat_pm5;
 if (isset($_GET['update']) == true) {
     $cat_id = sqlint($_GET['update']);
     $sql = "update cat set `cat_ord`='$cat_ord',`father`='$father',`title`='$title' WHERE id=$cat_id";
-    $pmr = "your category is changed...";
+    $pmr = $di_addcat_pm6;
 }
 $res = mysqli_query($connect, $sql);
 if ($res) {

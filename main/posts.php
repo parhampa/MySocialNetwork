@@ -12,8 +12,10 @@ while ($fild = mysqli_fetch_assoc($res)) {
                     $sqlcity = "select * from `city` where `id`=$city_id";
                     $rescity = mysqli_query($connect, $sqlcity);
                     $fildcity = mysqli_fetch_assoc($rescity);
-                    echo($fildcity['title']);
-                    ?></div>
+                    ?>
+                    <span id="postcity<?php echo($fild['id']); ?>" onclick="changecity(<?php echo($fild['id']); ?>)"><?php echo($fildcity['title']); ?></span>
+                    <span id="selpostcity<?php echo($fild['id']); ?>"></span>
+                </div>
                 <hr>
             </div>
             <div>
@@ -87,19 +89,20 @@ while ($fild = mysqli_fetch_assoc($res)) {
                     <br>
                     <span onclick="upmorpic(<?php echo($fild['id']); ?>)"
                           class="w3-btn w3-green w3-round-xxlarge"><i
-                            class="fas fa-plus"></i> add pic</span>
+                                class="fas fa-plus"></i> <?php echo($di_add_pic); ?></span>
                     <?php
                     if ($piccount > 0) {
                         ?>
                         <span onclick="delpic(<?php echo($fild['id']); ?>)" class="w3-btn w3-pink w3-round-xxlarge"><i
-                                class="fas fa-minus"></i> delete pic</span>
+                                    class="fas fa-minus"></i> <?php echo($di_delete_pic); ?></span>
                         <?php
                     }
                 }
                 ?>
 
                 <hr>
-                <p><?php echo($fild['txt']); ?></p>
+                <p id="posttxtid<?php echo($fild['id']); ?>"
+                   onclick="edittxt(<?php echo($fild['id']); ?>)"><?php echo($fild['txt']); ?></p>
                 <div style="display: none;" id="morpostid<?php echo($fild['id']); ?>"></div>
                 <div style="width: 100%; font-size: 12px; color: #979797;">
                         <span onclick="showmorepost(<?php echo($fild['id']); ?>)"

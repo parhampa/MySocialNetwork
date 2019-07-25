@@ -41,8 +41,8 @@ $sql = "insert into `numericval_item` (`title`,`orderval`,`cat_id`,`important`,`
       ('$title',$orderval,$cat_id,$important,$ismoney)";
 $res = mysqli_query($connect, $sql);
 if ($res) {
-    respm("1", "your numeric value is in database now...");
+    respm("1", $di_addnumericitem_pm1);
 } else {
-    respm("0", "we have problem to do that!!!");
+    respm("0", $di_addnumericitem_pm2);
 }
 ?>

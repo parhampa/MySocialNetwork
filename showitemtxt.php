@@ -49,8 +49,9 @@ if (isset($_GET['s']) == true) {
                 }
                 ?>
             </select>
-            <input type="button" onclick="savesel(<?php echo($id); ?>,<?php echo($post_id); ?>);" value="save">
-            <input type="button" onclick="canselsel(<?php echo($post_id); ?>);" value="cancel">
+            <input type="button" onclick="savesel(<?php echo($id); ?>,<?php echo($post_id); ?>);"
+                   value="<?php echo($di_save); ?>">
+            <input type="button" onclick="canselsel(<?php echo($post_id); ?>);" value="<?php echo($di_cancel); ?>">
             <?php
         }
     }

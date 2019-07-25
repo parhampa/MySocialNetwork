@@ -453,3 +453,90 @@ function showform3(cat_id) {
         });
     }
 }
+
+function edittxt(id) {
+    var txtid = "posttxtid" + id;
+    var posttxtid = "postedittxtid" + id;
+    var textvalid = document.getElementById(txtid).innerHTML;
+    document.getElementById(txtid).innerHTML = "<textarea style='width: 100%;' id='" + posttxtid + "'></textarea><br><input onclick='savetxtedit(" + id + ")' type='button' value='save'>";
+    document.getElementById(posttxtid).value = textvalid;
+    document.getElementById(txtid).onclick = "";
+}
+
+function savetxtedit(id) {
+    var posttxtid = "postedittxtid" + id;
+    var txt = document.getElementById(posttxtid).value;
+    if (txt == "") {
+        alert("you should set your text...");
+        return;
+    }
+    $.post("save_post_txt.php",
+        {
+            id: id,
+            txt: txt
+        },
+        function (data, status) {
+            alert("Your text has changed.");
+            location.reload();
+        });
+}
+
+function changecity(id) {
+    $.post("selchcity.php",
+        {
+            id: id
+        },
+        function (data, status) {
+            var selcityid = "selpostcity" + id;
+            document.getElementById(selcityid).innerHTML = data;
+        });
+}
+
+function savechangecity(id) {
+    var selcity = "changepostcitysel" + id;
+    var city = document.getElementById(selcity).value;
+    $.post("save_post_city.php",
+        {
+            id: id,
+            city: city
+        },
+        function (data, status) {
+            alert("Your city has changed.");
+            location.reload();
+        });
+}
+
+function loadfilteritmes(id) {
+    $.get("main/show_filter_item.php?id=" + id,
+        function (data, status) {
+            document.getElementById('resfilteritems').innerHTML = data;
+        });
+}
+
+function sndfilter() {
+    var url = "main.php?filterres=1&catid=" + document.getElementById('filtercat').value;
+    for (i = 0; i < document.getElementsByClassName('filterselect').length; i++) {
+        var thisval = document.getElementsByClassName('filterselect')[i].value;
+        if (thisval != "") {
+            url = url + "&" + document.getElementsByClassName('filterselect')[i].id + "=" + thisval;
+        }
+    }
+    for (i = 0; i < document.getElementsByClassName('filternumber1').length; i++) {
+        var num1 = document.getElementsByClassName('filternumber1')[i].value;
+        var numid1 = document.getElementsByClassName('filternumber1')[i].id;
+        var num2 = document.getElementsByClassName('filternumber2')[i].value;
+        var numid2 = document.getElementsByClassName('filternumber2')[i].id;
+        if (num1 != "" && num2 != "") {
+            url = url + "&" + numid1 + "=" + num1;
+            url = url + "&" + numid2 + "=" + num2;
+        }
+    }
+    for (i = 0; i < document.getElementsByClassName('filtertext').length; i++) {
+        var txtid = document.getElementsByClassName('filtertext')[i].id;
+        var txt = document.getElementsByClassName('filtertext')[i].value;
+        if (txt != "") {
+            url = url + "&" + txtid + "=" + txt;
+        }
+    }
+    location.replace(url);
+}

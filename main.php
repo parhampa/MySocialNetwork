@@ -31,19 +31,29 @@ include("config.php");
         include("main/addcity.php");
         include("main/addcat.php");
     }
-    if ($user != "") {
-        include("main/addpost.php");
-        if ($admin == true) {
-            include("main/topbtn.php");
+    if (isset($_GET['users']) == true && $admin == true) {
+        include("main/users.php");
+    } elseif (isset($_GET['catman']) == true && $admin == true) {
+        include("main/catman.php");
+    } else {
+        if ($user != "") {
+            include("main/addpost.php");
+            if ($admin == true) {
+                include("main/topbtn.php");
+            }
+        }
+        if (isset($_GET['all']) == true) {
+            if ($_GET['all'] == 1) {
+                $_COOKIE['city'] = "0";
+            }
+        }
+        if (isset($_GET['filter']) == true) {
+            include("main/filtering.php");
+        } else {
+            include("main/filter.php");
+            include("main/posts.php");
         }
     }
-    if (isset($_GET['all']) == true) {
-        if ($_GET['all'] == 1) {
-            $_COOKIE['city'] = "0";
-        }
-    }
-    include("main/filter.php");
-    include("main/posts.php");
     ?>
 </div>
 </body>

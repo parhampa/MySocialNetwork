@@ -45,7 +45,7 @@ if ($uploadOk == 0) {
         $sql = "insert into `post_pics` (`address`,`post_id`) VALUES ('$target_file',$id)";
         $res = mysqli_query($connect, $sql);
     } else {
-        echo("upload is not ok");
+        echo($di_up_pm1);
     }
 }
 ?>

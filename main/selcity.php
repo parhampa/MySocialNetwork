@@ -15,10 +15,10 @@
                         $fildselcity = mysqli_fetch_assoc($resselcity);
                         echo($fildselcity['title']);
                     } else {
-                        echo("all cities");
+                        echo($di_all_cities);
                     }
                 } else {
-                    echo("all cities");
+                    echo($di_all_cities);
                 }
                 ?>
 
@@ -36,7 +36,7 @@
             ?>
             <i class="fas fa-map-marker-alt"></i>
             <select class="w3-select w3-border" style="width: 40%;" id="selcityfilter">
-                <option value="0">all cities</option>
+                <option value="0"><?php echo($di_all_cities); ?></option>
                 <?php
                 while ($fildselcity = mysqli_fetch_assoc($resselcity)) {
                     ?>
@@ -45,7 +45,7 @@
                 }
                 ?>
             </select>
-            <span class="w3-btn w3-green" onclick="showcitysel()">set city</span>
+            <span class="w3-btn w3-green" onclick="showcitysel()"><?php echo($di_set_city); ?></span>
         </div>
     </div>
 </div>

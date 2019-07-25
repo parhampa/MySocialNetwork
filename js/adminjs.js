@@ -174,6 +174,7 @@ function loadscat() {
     xhttp.open("GET", "loadfcat.php?scat=1", true);
     xhttp.send();
 }
+
 function addselectitemfunc() {
     $.post("add_selectitem.php",
         {
@@ -186,5 +187,144 @@ function addselectitemfunc() {
             document.getElementById('postform2').style.display = "";*/
             showform2(document.getElementById('add_subcat').value);
             alert(myobj.pm);
+        });
+}
+
+function catmanselitem(id) {
+    $.post("showcatmanselitem.php",
+        {
+            id: id
+        },
+        function (data, status) {
+            document.getElementById('catlistman').style.display = "none";
+            document.getElementById('resshowitems').innerHTML = data;
+            document.getElementById('allitemsplc').style.display = "";
+        });
+}
+
+function backmancat() {
+    document.getElementById('allitemsplc').style.display = "none";
+    document.getElementById('catlistman').style.display = "";
+}
+
+function selectaddfilter(id, ty) {
+    $.post("catitems/add_select_filter.php",
+        {
+            id: id,
+            ty: ty
+        },
+        function (data, status) {
+            var addid = "addfilterid" + id;
+            var remid = "remfilterid" + id;
+            if (ty == 1) {
+                document.getElementById(addid).style.display = "none";
+                document.getElementById(remid).style.display = "";
+            }
+            else {
+                document.getElementById(addid).style.display = "";
+                document.getElementById(remid).style.display = "none";
+            }
+            alert("filtering has changed.");
+        });
+}
+
+function catmanstritem(id) {
+    $.post("showcatmanstritem.php",
+        {
+            id: id
+        },
+        function (data, status) {
+            document.getElementById('catlistman').style.display = "none";
+            document.getElementById('resshowitems').innerHTML = data;
+            document.getElementById('allitemsplc').style.display = "";
+        });
+}
+
+function straddfilter(id, ty) {
+    $.post("catitems/add_str_filter.php",
+        {
+            id: id,
+            ty: ty
+        },
+        function (data, status) {
+            var addid = "addfilterid" + id;
+            var remid = "remfilterid" + id;
+            if (ty == 1) {
+                document.getElementById(addid).style.display = "none";
+                document.getElementById(remid).style.display = "";
+            }
+            else {
+                document.getElementById(addid).style.display = "";
+                document.getElementById(remid).style.display = "none";
+            }
+            alert("filtering has changed.");
+        });
+}
+
+function catmannumitem(id) {
+    $.post("showcatmannumeric.php",
+        {
+            id: id
+        },
+        function (data, status) {
+            document.getElementById('catlistman').style.display = "none";
+            document.getElementById('resshowitems').innerHTML = data;
+            document.getElementById('allitemsplc').style.display = "";
+        });
+}
+
+function numaddfilter(id, ty) {
+    $.post("catitems/add_numeric_filter.php",
+        {
+            id: id,
+            ty: ty
+        },
+        function (data, status) {
+            var addid = "addfilterid" + id;
+            var remid = "remfilterid" + id;
+            if (ty == 1) {
+                document.getElementById(addid).style.display = "none";
+                document.getElementById(remid).style.display = "";
+            }
+            else {
+                document.getElementById(addid).style.display = "";
+                document.getElementById(remid).style.display = "none";
+            }
+            alert("filtering has changed.");
+        });
+}
+
+function useractiviti(user, ty) {
+    $.post("useractions/activity.php",
+        {
+            user: user,
+            ty: ty
+        },
+        function (data, status) {
+            alert("User status has changed.");
+            location.reload();
+        });
+}
+
+function useradmin(user, ty) {
+    $.post("useractions/usershopadmin.php",
+        {
+            user: user,
+            ty: ty
+        },
+        function (data, status) {
+            alert("User status has changed.");
+            location.reload();
+        });
+}
+function usercityadmin(user, ty) {
+    $.post("useractions/usercityadmin.php",
+        {
+            user: user,
+            ty: ty
+        },
+        function (data, status) {
+            alert("User status has changed.");
+            location.reload();
         });
 }

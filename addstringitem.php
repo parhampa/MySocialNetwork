@@ -40,8 +40,8 @@ $sql = "insert into `stringval_item` (`cat_id`,`title`,`order_string`,`important
         ($cat_id,'$title',$order_string,$important,$bigtext)";
 $res = mysqli_query($connect, $sql);
 if ($res) {
-    respm("1", "your string item is in database now...");
+    respm("1", $di_addstringitem_pm1);
 } else {
-    respm("0", "we have a problem in this action!!!");
+    respm("0", $di_addstringitem_pm2);
 }
 ?>

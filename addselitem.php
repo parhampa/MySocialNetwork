@@ -31,9 +31,9 @@ $sql = "insert into `selectbox_item` (`cat_id`,`title`,`sel_order`) VALUES
           ($cat_id,'$title',$sel_order)";
 $res = mysqli_query($connect, $sql);
 if ($res) {
-    respm("1", "your selectbox is in database now...");
+    respm("1", $di_addselitem_pm1);
 } else {
-    respm("0", "we have problem to do that!!!");
+    respm("0", $di_addselitem_pm2);
 }
 ?>
 

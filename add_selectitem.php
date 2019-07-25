@@ -21,8 +21,8 @@ if ($title == "") {
 $sql = "insert into `selectbox_val` (`sid`,`title`) VALUE ($sid,'$title')";
 $res = mysqli_query($connect, $sql);
 if ($res) {
-    respm("1", "your item value is in database now...");
+    respm("1", $di_add_selectitem_sucsess);
 } else {
-    respm("0", "there is a problem with this action!!!");
+    respm("0", $di_add_selectitem_fail);
 }
 ?>

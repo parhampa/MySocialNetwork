@@ -28,7 +28,7 @@ if (isset($_GET['scat']) == true) {
     }
 } else {
     ?>
-    <option value="0">your category father</option>
+    <option value="0"><?php echo($di_yourcatfather); ?></option>
     <?php
 
     $sql = "select * from cat where `father`=0 order by `cat_ord` DESC";

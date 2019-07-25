@@ -36,8 +36,8 @@ $sql = "insert into post (`user`,`tarikh`,`saat`,`txt`,`cat_id`,`city_id`,`req_t
 $res = mysqli_query($connect, $sql);
 if ($res) {
     $last_id = mysqli_insert_id($connect);
-    respm("$last_id", "your post is in database now...");
+    respm("$last_id", $di_add_post_success);
 } else {
-    respm("0", "some thing is wrong, we can`t do that!!!");
+    respm("0", $di_add_post_fail);
 }
 ?>

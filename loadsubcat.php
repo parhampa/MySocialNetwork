@@ -15,7 +15,7 @@ $sql = "select * from cat where `father`=$fcat";
 $res = mysqli_query($connect, $sql);
 ?>
 <select class="w3-select w3-border" id="add_subcat" onchange="loadmorinfo();">
-    <option value="0">select sub category</option>
+    <option value="0"><?php echo($di_selectsubcat); ?></option>
     <?php
     while ($fild = mysqli_fetch_assoc($res)) {
         ?>

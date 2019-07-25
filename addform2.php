@@ -61,5 +61,5 @@ while ($fild = mysqli_fetch_assoc($res)) {
     $sql2 = "insert into post_string (`post_id`,`sid`,`value`) VALUES ($id,$sid,'$value')";
     $res2 = mysqli_query($connect, $sql2);
 }
-respm("1", "we are done...");
+respm("1", $di_add_form2_pm1);
 ?>

@@ -12,4 +12,4 @@ while ($fild = mysqli_fetch_assoc($res)) {
     <?php
 }
 ?>
-<span class="w3-btn w3-pink" onclick="showcatlist()">back</span>
+<span class="w3-btn w3-pink" onclick="showcatlist()"><?php echo($di_back); ?></span>

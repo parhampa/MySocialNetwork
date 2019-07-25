@@ -1,4 +1,5 @@
 <?php
+include("dictionary/dictionary.php");
 $dbuser = "root";
 $dbpass = "";
 $dbhost = "127.0.0.1";

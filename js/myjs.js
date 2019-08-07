@@ -540,3 +540,13 @@ function sndfilter() {
     }
     location.replace(url);
 }
+
+var pg = 1;
+
+function loadnext(params) {
+    $.get("moreposts.php?pg=" + pg + "&" + params,
+        function (data, status) {
+            document.getElementById('moreposts').innerHTML = document.getElementById('moreposts').innerHTML + data;
+            pg++;
+        });
+}

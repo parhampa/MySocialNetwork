@@ -49,6 +49,8 @@ include("config.php");
         }
         if (isset($_GET['filter']) == true) {
             include("main/filtering.php");
+        } elseif (isset($_GET['profile']) == true && $user != "") {
+            include("main/profile.php");
         } else {
             include("main/filter.php");
             include("main/posts.php");

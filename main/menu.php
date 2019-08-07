@@ -4,7 +4,8 @@
         <span class="w3-btn w3-blue w3-hover-pink"
               onclick="location.replace('main.php')" style="border-radius: 25px;"><?php echo($di_mainpage); ?></span>
     <span class="w3-btn w3-blue w3-hover-pink"
-          onclick="location.replace('main.php?filter=1')" style="border-radius: 25px;"><?php echo($di_filtering); ?></span>
+          onclick="location.replace('main.php?filter=1')"
+          style="border-radius: 25px;"><?php echo($di_filtering); ?></span>
     <span class="w3-btn w3-blue w3-hover-pink <?php echo($loginstatus); ?>"
           onclick="addanewpost()" style="border-radius: 25px;"><?php echo($di_add_new_post); ?></span>
     <span class="w3-btn w3-blue w3-hover-pink" style="border-radius: 25px;"
@@ -18,6 +19,12 @@
     } else {
         ?>
         <span class="w3-btn w3-blue w3-hover-pink" style="border-radius: 25px;"
+              onclick="location.replace('main.php?mine=1');"><?php echo($di_myposts); ?></span>
+
+        <span class="w3-btn w3-blue w3-hover-pink" style="border-radius: 25px;"
+              onclick="location.replace('main.php?profile=1');"><?php echo($di_profile); ?></span>
+
+        <span class="w3-btn w3-red w3-hover-pink" style="border-radius: 25px;"
               onclick="location.replace('logout.php')"><?php echo($di_logout); ?></span>
         <?php
     }

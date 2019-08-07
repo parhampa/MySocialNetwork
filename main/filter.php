@@ -77,13 +77,51 @@ if (isset($_GET['filterres']) == true) {
                     $fullfilter = $fullfilter . " and `id` in (select concat(`post_id`) from `post_string` where $strings)";
                 }
             }
-            die($fullfilter);
+            $sqlnumeric = "select `id` from `numericval_item` where `cat_id`=$pcatid and `filter`=1";
+            $resnumeric = mysqli_query($connect, $sqlnumeric);
+            $numberfilter = "";
+            while ($fildnumerci = mysqli_fetch_assoc($resnumeric)) {
+                $numberitem1 = "filternumber1id" . $fildnumerci['id'];
+                $numberitem2 = "filternumber2id" . $fildnumerci['id'];
+                if (isset($_GET[$numberitem1]) == true && isset($_GET[$numberitem2]) == true) {
+                    $numberval1 = sqlint($_GET[$numberitem1]);
+                    $numberval2 = sqlint($_GET[$numberitem2]);
+                    if ($numberfilter == "") {
+                        $nid = $fildnumerci['id'];
+                        $numberfilter = "(`nid`=$nid and (`value` BETWEEN $numberval1 and $numberval2))";
+                    } else {
+                        $numberfilter = $numberfilter . " and (`nid`=$nid and (`value` BETWEEN $numberval1 and $numberval2))";
+                    }
+                }
+            }
+            if ($numberfilter != "") {
+                $numberfilter = "select concat(`post_id`) from `post_numericval` where $numberfilter";
+                $fullfilter = $fullfilter . "and `id` in ($numberfilter)";
+                if ($fullfilter == "") {
+                    $fullfilter = " `id` in ($numberfilter)";
+                } else {
+                    $fullfilter = $fullfilter . " and `id` in ($numberfilter)";
+                }
+            }
         }
     }
 }
 if ($admin == true) {
-    $sqlpost = "select * from `post` $filter order by `id` DESC limit 0,15";
+    if ($filter != "" && $fullfilter != "") {
+        $fullfilter = " and $fullfilter";
+    } elseif ($fullfilter != "" && $filter == "") {
+        $fullfilter = " where $fullfilter";
+    }
+    $sqlpost = "select * from `post` $filter $fullfilter order by `id` DESC limit 0,15";
 } else {
-    $sqlpost = "select * from `post` where `visible`=1 $filter order by `post_order` DESC limit 0,15";
+    if ($filter == "" && $fullfilter != "") {
+        $fullfilter = " and $fullfilter";
+    }
+    $sqlpost = "select * from `post` where `visible`=1 $filter $fullfilter order by `post_order` DESC limit 0,15";
+}
+if (isset($_GET['mine']) == true) {
+    if ($user != "") {
+        $sqlpost = "select * from `post` where `user`='$user' order by id DESC ";
+    }
 }
 ?>

@@ -64,11 +64,17 @@ $di_catmanage = "category management";
 $di_users = "users";
 $di_mainpage = "main page";
 $di_filtering = "filtering";
+$di_myposts = "my posts";
+$di_profile = "profile";
 /////////////////////////////posts.php
 $di_add_pic = "add pic";
 $di_delete_pic = "delete pic";
 $di_all_cities = "all cities";
 $di_set_city = "set city";
+$di_show_more_posts = "show more";
+//////////////////////////morepost.php
+$di_phone_number = "phone number";
+$di_user_phone_number = "user phone number";
 ////////////////////////////topbtn.php
 $di_show_all_post = "show all post";
 $di_show_visible_post = "show visible posts";

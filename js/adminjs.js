@@ -183,8 +183,6 @@ function addselectitemfunc() {
         },
         function (data, status) {
             myobj = JSON.parse(data);
-            /*document.getElementById('postform1').style.display = "none";
-            document.getElementById('postform2').style.display = "";*/
             showform2(document.getElementById('add_subcat').value);
             alert(myobj.pm);
         });
